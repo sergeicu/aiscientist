@@ -1,0 +1,26 @@
+# Core dependencies for PubMed Clinical Trial Classifier
+
+# LLM and Structured Output
+ollama>=0.1.0                 # Ollama client for local model access
+outlines>=0.0.40              # Constrained generation for guaranteed JSON structure
+json-repair>=0.7.0            # Fallback JSON repair for malformed outputs
+
+# Data Models and Validation
+pydantic>=2.0.0               # Data validation and type safety
+pydantic-settings>=2.0.0      # Settings management
+
+# Data Processing
+pandas>=2.0.0                 # CSV handling and data manipulation
+numpy>=1.24.0                 # Numerical operations
+
+# Configuration and Templates
+pyyaml>=6.0.0                 # YAML parsing for prompt templates
+
+# CLI and User Interface
+click>=8.0.0                  # CLI framework
+rich>=13.0.0                  # Rich terminal output and formatting
+tqdm>=4.65.0                  # Progress bars
+
+# Utilities
+python-dotenv>=1.0.0          # Environment variable management
+loguru>=0.7.0                 # Better logging
