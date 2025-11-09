@@ -1,5 +1,7 @@
 # AI Scientist
 
+This repository explores all of the PubMed publications of Boston Children's Hospital research (circa 20k files).
+
 This repository contains PubMed dataset files for research and analysis.
 
 ## Dataset
