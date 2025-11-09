@@ -1,0 +1,202 @@
+# Clinical Trial Classifier Prompt Template
+#
+# This template defines the prompt structure for classifying PubMed articles
+# as clinical trials and extracting relevant metadata.
+#
+# You can customize this template to improve classification accuracy.
+
+# System role and instructions
+system_prompt: |
+  You are an expert medical researcher specializing in clinical trial identification and analysis.
+  Your task is to analyze PubMed article abstracts and determine if they describe clinical trials.
+
+  You must respond ONLY with valid JSON matching the exact schema provided.
+  Do not include any explanatory text before or after the JSON.
+
+# Task description
+task_description: |
+  Analyze the following article abstract and classify whether it describes a clinical trial.
+
+  A clinical trial is a research study that:
+  1. Tests medical interventions (drugs, devices, procedures, or behavioral treatments)
+  2. Involves human participants
+  3. Has a prospective design (not retrospective review)
+  4. Has defined inclusion/exclusion criteria
+  5. Measures specific outcomes
+  6. Often (but not always) includes randomization and/or blinding
+
+  NOT clinical trials:
+  - Retrospective studies or chart reviews
+  - Case reports or case series
+  - Preclinical/animal studies
+  - Systematic reviews or meta-analyses (unless they describe a new trial)
+  - Observational studies without intervention
+  - Basic science research
+
+# JSON output schema instructions
+output_format_instructions: |
+  Return your response as a JSON object with the following structure:
+  {
+    "is_clinical_trial": boolean,        // Required: true if this is a clinical trial
+    "confidence": float,                 // Required: 0.0 to 1.0, your confidence in the classification
+    "reasoning": string,                 // Required: Brief explanation (1-3 sentences) for your decision
+
+    // The following fields are OPTIONAL and should be included only if applicable:
+    "trial_phase": string,               // "Phase 0", "Phase I", "Phase II", "Phase III", "Phase IV", "Phase I/II", "Phase II/III", "Not Applicable", "Unknown"
+    "study_type": string,                // "Interventional", "Observational", "Expanded Access", "Meta-Analysis", "Systematic Review", "Case Report", "Case Series", "Other", "Unknown"
+    "intervention_type": string,         // "Drug", "Biological", "Device", "Procedure", "Behavioral", "Dietary Supplement", "Radiation", "Combination", "Other", "Not Applicable"
+    "sample_size": integer,              // Number of participants (null if not mentioned)
+    "primary_outcome": string,           // Primary outcome measure (null if not mentioned)
+    "study_population": string,          // Description of participants (e.g., "children with asthma")
+    "randomized": boolean,               // true if randomized (null if not mentioned)
+    "blinded": boolean,                  // true if blinded (null if not mentioned)
+    "multi_center": boolean              // true if multi-center (null if not mentioned)
+  }
+
+  IMPORTANT:
+  - Return ONLY the JSON object, no additional text
+  - All string values must be properly quoted
+  - Use null for unknown/missing optional fields
+  - Ensure all commas and braces are correctly placed
+
+# Few-shot examples to guide the model
+examples:
+  - label: "Clinical Trial - Phase III Drug Study"
+    abstract: |
+      Background: Asthma is a common chronic disease in children. This randomized, double-blind, placebo-controlled trial evaluated the efficacy of montelukast in pediatric asthma.
+      Methods: We enrolled 689 children aged 6-14 years with moderate persistent asthma. Patients were randomized to receive montelukast 5mg or placebo once daily for 12 weeks.
+      Results: The primary outcome was forced expiratory volume (FEV1). Montelukast improved FEV1 by 8.2% compared to placebo (p<0.001).
+      Conclusion: Montelukast is effective for treating pediatric asthma.
+
+    expected_output:
+      is_clinical_trial: true
+      confidence: 0.95
+      reasoning: "This is clearly a randomized, double-blind, placebo-controlled trial testing a drug intervention (montelukast) in children with asthma. It has defined inclusion criteria, randomization, blinding, and measured outcomes."
+      trial_phase: "Phase III"
+      study_type: "Interventional"
+      intervention_type: "Drug"
+      sample_size: 689
+      primary_outcome: "forced expiratory volume (FEV1)"
+      study_population: "children aged 6-14 years with moderate persistent asthma"
+      randomized: true
+      blinded: true
+      multi_center: null
+
+  - label: "NOT Clinical Trial - Retrospective Study"
+    abstract: |
+      We conducted a retrospective chart review of 342 patients with congenital heart disease who underwent surgery at Boston Children's Hospital between 2010 and 2020.
+      We analyzed outcomes including mortality, length of stay, and complications. The overall mortality rate was 2.3%.
+      Risk factors for adverse outcomes included younger age and complexity of cardiac defect.
+
+    expected_output:
+      is_clinical_trial: false
+      confidence: 0.98
+      reasoning: "This is a retrospective chart review, not a prospective interventional study. It analyzes past data rather than testing a specific intervention in a controlled manner."
+      study_type: "Case Series"
+
+  - label: "Clinical Trial - Surgical Intervention"
+    abstract: |
+      This prospective randomized study compared minimally invasive versus open surgical repair of pectus excavatum in 87 adolescent patients.
+      Patients were randomly assigned to either thoracoscopic repair (n=44) or open Ravitch procedure (n=43).
+      The primary endpoint was postoperative pain scores at 48 hours. Secondary endpoints included length of hospital stay and cosmetic outcomes at 1 year.
+      The minimally invasive approach resulted in significantly lower pain scores (3.2 vs 5.7, p<0.01) and shorter hospital stay (2.1 vs 4.3 days, p<0.001).
+
+    expected_output:
+      is_clinical_trial: true
+      confidence: 0.92
+      reasoning: "This is a prospective randomized trial comparing two surgical procedures. It has randomization, defined endpoints, and tests an intervention (surgical technique) in human subjects."
+      trial_phase: "Not Applicable"
+      study_type: "Interventional"
+      intervention_type: "Procedure"
+      sample_size: 87
+      primary_outcome: "postoperative pain scores at 48 hours"
+      study_population: "adolescent patients with pectus excavatum"
+      randomized: true
+      blinded: false
+
+  - label: "NOT Clinical Trial - Systematic Review"
+    abstract: |
+      We conducted a systematic review and meta-analysis of randomized controlled trials evaluating probiotics for preventing necrotizing enterocolitis in preterm infants.
+      We searched MEDLINE, Embase, and Cochrane databases and identified 42 eligible trials including 12,352 infants.
+      Pooled analysis showed that probiotics significantly reduced the risk of NEC (RR 0.57, 95% CI 0.47-0.68).
+      Probiotics appear to be effective for NEC prevention in preterm infants.
+
+    expected_output:
+      is_clinical_trial: false
+      confidence: 0.96
+      reasoning: "This is a systematic review and meta-analysis of existing trials, not a new clinical trial. It synthesizes data from multiple studies but does not conduct a new intervention."
+      study_type: "Meta-Analysis"
+
+  - label: "Clinical Trial - Behavioral Intervention"
+    abstract: |
+      We evaluated a family-based behavioral intervention for childhood obesity in a randomized controlled trial.
+      One hundred twenty families with obese children (ages 8-12) were randomized to receive either the 6-month intervention program or standard care.
+      The intervention included weekly group sessions focused on nutrition education, physical activity, and behavior modification.
+      At 6 months, children in the intervention group had significantly greater reductions in BMI z-score (-0.21 vs -0.05, p=0.003).
+
+    expected_output:
+      is_clinical_trial: true
+      confidence: 0.94
+      reasoning: "This is a randomized controlled trial testing a behavioral intervention (family-based program) for childhood obesity. It has randomization, a control group, defined intervention, and measured outcomes."
+      trial_phase: "Not Applicable"
+      study_type: "Interventional"
+      intervention_type: "Behavioral"
+      sample_size: 120
+      primary_outcome: "BMI z-score change at 6 months"
+      study_population: "families with obese children ages 8-12 years"
+      randomized: true
+      blinded: false
+
+  - label: "NOT Clinical Trial - Case Report"
+    abstract: |
+      We report a case of a 5-year-old girl with a rare presentation of Kawasaki disease complicated by giant coronary artery aneurysms.
+      She presented with prolonged fever and was diagnosed on day 12 of illness. Despite treatment with IVIG and aspirin, she developed multiple aneurysms.
+      She was successfully managed with anticoagulation and anti-platelet therapy. At 2-year follow-up, aneurysms had partially regressed.
+
+    expected_output:
+      is_clinical_trial: false
+      confidence: 0.99
+      reasoning: "This is a case report describing a single patient's clinical course. Case reports are not clinical trials as they lack prospective design, intervention testing, and controlled comparison."
+      study_type: "Case Report"
+
+# Instructions for handling edge cases
+edge_case_guidance: |
+  Challenging cases to consider:
+
+  1. Pilot studies: Usually ARE clinical trials (even if small sample size)
+  2. Feasibility studies: Usually ARE clinical trials if testing intervention
+  3. Observational studies with intervention: May be clinical trials (use judgment)
+  4. Registry studies: Usually NOT clinical trials (observational without intervention)
+  5. Phase 0 microdosing: ARE clinical trials
+  6. Expanded access programs: May be clinical trials (case-by-case)
+
+  When uncertain (confidence < 0.7):
+  - Lean toward classifying as a trial if there's prospective intervention testing
+  - Provide honest confidence score
+  - Explain uncertainty in reasoning
+
+# Template for assembling the final prompt
+prompt_template: |
+  {system_prompt}
+
+  {task_description}
+
+  {output_format_instructions}
+
+  Here are some examples:
+
+  Example 1 (Clinical Trial):
+  Abstract: "{examples[0].abstract}"
+  Output: {examples[0].expected_output}
+
+  Example 2 (NOT Clinical Trial):
+  Abstract: "{examples[1].abstract}"
+  Output: {examples[1].expected_output}
+
+  Now analyze this abstract:
+
+  Title: {title}
+
+  Abstract: {abstract}
+
+  Remember: Return ONLY valid JSON, no additional text.
