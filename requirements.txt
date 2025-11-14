@@ -29,6 +29,11 @@ loguru>=0.7.0                 # Better logging
 sentence-transformers>=2.2.0  # Semantic embeddings for text
 chromadb>=0.4.0               # Vector database for similarity search
 
+# Clustering
+umap-learn>=0.5.0             # Dimensionality reduction
+hdbscan>=0.8.0                # Density-based clustering
+scikit-learn>=1.0.0           # Machine learning metrics and utilities
+
 # Testing
 pytest>=7.0.0                 # Testing framework
 pytest-cov>=4.0.0             # Test coverage reporting
