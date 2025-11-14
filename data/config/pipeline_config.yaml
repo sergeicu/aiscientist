@@ -1,0 +1,41 @@
+# Pipeline Configuration for Data Collection
+# This file configures the data collection pipeline for PubMed and ClinicalTrials.gov
+
+# PubMed Scraper Configuration
+pubmed:
+  email: researcher@example.com           # Required: your email for NCBI API
+  api_key: null                            # Optional: NCBI API key (increases rate limit)
+  institutions:
+    - Harvard Medical School
+    - Mayo Clinic
+    - Johns Hopkins University
+    - Stanford University School of Medicine
+  max_results_per_institution: 1000       # Maximum papers per institution
+  rate_limit_per_second: 3.0              # API rate limit (3/sec without key, 10/sec with key)
+
+# ClinicalTrials.gov Scraper Configuration
+clinicaltrials:
+  sponsors:
+    - Massachusetts General Hospital
+    - Johns Hopkins Hospital
+    - Mayo Clinic
+    - Stanford Health Care
+  max_results_per_sponsor: 500            # Maximum trials per sponsor
+  rate_limit_per_second: 2.0              # API rate limit
+
+# General Pipeline Settings
+output_dir: ./data                        # Base directory for data storage
+log_level: INFO                           # Logging level: DEBUG, INFO, WARNING, ERROR
+parallel_workers: 3                       # Number of parallel workers (1-10)
+retry_failed: true                        # Retry failed scrapes
+max_retries: 3                            # Maximum retry attempts
+
+# Directory structure created automatically:
+# ./data/
+#   ├── config/                  # Configuration files
+#   ├── raw/                     # Raw scraped data
+#   │   ├── pubmed/             # PubMed papers
+#   │   ├── clinicaltrials/     # Clinical trials
+#   │   └── author_networks/    # Author networks
+#   ├── processed/              # Processed/unified data
+#   └── logs/                   # Pipeline logs and reports
