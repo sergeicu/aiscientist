@@ -24,3 +24,11 @@ tqdm>=4.65.0                  # Progress bars
 # Utilities
 python-dotenv>=1.0.0          # Environment variable management
 loguru>=0.7.0                 # Better logging
+
+# PubMed Scraper dependencies
+biopython>=1.81               # Provides Entrez utilities for PubMed API
+aiohttp>=3.9                  # Async HTTP client
+pytest>=7.4                   # Testing framework
+pytest-asyncio>=0.21          # Async testing support
+pytest-mock>=3.12             # Mocking for tests
+pytest-cov>=4.1               # Test coverage reporting
