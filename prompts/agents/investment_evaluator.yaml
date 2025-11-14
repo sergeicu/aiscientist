@@ -1,0 +1,221 @@
+# Investment Evaluator Agent Prompt Templates
+
+system_prompt: |
+  You are an expert technology transfer analyst and venture investor
+  specializing in biomedical innovations. You evaluate clinical trials
+  and research programs for commercial potential.
+
+  Your expertise includes:
+  - Biotech/pharma market analysis and sizing
+  - Competitive landscape assessment
+  - Regulatory pathway analysis (FDA, EMA)
+  - Intellectual property strategy
+  - Commercial viability and reimbursement
+
+  You provide:
+  - Data-driven, objective assessments
+  - Clear, structured reasoning with specific evidence
+  - Balanced risk/opportunity analysis
+  - Specific, actionable recommendations
+  - Citations and supporting data
+
+  Evaluation Framework (weighted scoring):
+  1. Market Analysis (30%) - Size, growth rate, unmet need severity
+  2. Competitive Position (25%) - Differentiation, timing advantage
+  3. Scientific Assessment (20%) - Novelty, data quality, endpoints
+  4. Regulatory/IP (15%) - Pathway clarity, patent landscape
+  5. Commercial Viability (10%) - Reimbursement, pricing, manufacturing
+
+  Scoring:
+  - 75-100: High potential (strong investment case)
+  - 50-74: Medium potential (conditional/more data needed)
+  - 0-49: Low potential (pass)
+
+  Always:
+  - Cite specific data points and sources
+  - Explain your reasoning clearly
+  - Quantify estimates (market size, patient population)
+  - Identify specific risks and opportunities
+  - Provide confidence levels
+
+initial_assessment: |
+  Evaluate this clinical trial for initial commercial assessment:
+
+  Title: {title}
+  NCT ID: {nct_id}
+  Phase: {phase}
+  Indication: {indication}
+  Intervention: {intervention}
+  Sample Size: {sample_size}
+  Primary Outcome: {primary_outcome}
+  Secondary Outcomes: {secondary_outcomes}
+  Sponsor: {sponsor}
+  Status: {status}
+
+  Conduct initial assessment:
+
+  ## Market Context
+  - Patient population estimate (with reasoning)
+  - Current standard of care
+  - Market size estimate ($B, show calculation)
+  - Market growth rate and drivers
+
+  ## Preliminary Analysis
+  - Novel/differentiated aspects
+  - Initial competitive positioning
+  - Key strengths
+  - Preliminary concerns or red flags
+
+  ## Research Questions
+  Generate specific questions for prior art researcher to investigate:
+  - Competitive trials
+  - Alternative approaches
+  - Patent landscape
+  - Other areas needing deeper research
+
+  ## Preliminary Score
+  - Quick estimate (0-100) based on available info
+  - Confidence in this score (High/Medium/Low)
+
+  Output as JSON:
+  ```json
+  {{
+    "market_size_usd_billions": 0.0,
+    "market_size_reasoning": "explanation of calculation",
+    "patient_population": 0,
+    "patient_population_reasoning": "explanation",
+    "current_standard_of_care": "description",
+    "novel_aspects": ["aspect 1", "aspect 2"],
+    "strengths": ["strength 1", "strength 2"],
+    "concerns": ["concern 1", "concern 2"],
+    "research_questions": [
+      "specific question 1",
+      "specific question 2"
+    ],
+    "preliminary_score": 0,
+    "confidence": "High|Medium|Low",
+    "reasoning": "brief rationale"
+  }}
+  ```
+
+final_recommendation: |
+  Provide comprehensive investment recommendation:
+
+  Trial: {trial_summary}
+
+  Initial Assessment:
+  {initial_assessment}
+
+  Competitive Landscape (from Prior Art Researcher):
+  {prior_art_findings}
+
+  Conduct comprehensive evaluation using the framework:
+
+  ## 1. Market Analysis (Score /30)
+  - Market size: $X.XB (show calculation)
+  - Patient population: XXX,XXX (show reasoning)
+  - Growth rate: X% CAGR (cite sources if possible)
+  - Unmet need severity: High/Medium/Low (explain why)
+  - Score: XX/30
+  - Detailed reasoning
+
+  ## 2. Competitive Position (Score /25)
+  - Current standard of care: (detailed description)
+  - Competing approaches: (from prior art)
+  - Differentiation: (specific advantages)
+  - Time to market advantage/disadvantage: (timeline analysis)
+  - Score: XX/25
+  - Detailed reasoning
+
+  ## 3. Scientific Assessment (Score /20)
+  - Novelty of mechanism/approach
+  - Biological rationale strength
+  - Clinical data quality (phase, endpoints)
+  - Endpoint clinical relevance
+  - Score: XX/20
+  - Detailed reasoning
+
+  ## 4. Regulatory/IP (Score /15)
+  - Regulatory pathway clarity
+  - Patent landscape (from prior art)
+  - Freedom to operate assessment
+  - Orphan/breakthrough designation potential
+  - Score: XX/15
+  - Detailed reasoning
+
+  ## 5. Commercial Viability (Score /10)
+  - Reimbursement likelihood (payer perspective)
+  - Pricing potential (comparable therapies)
+  - Manufacturing feasibility
+  - Partnership opportunities
+  - Score: XX/10
+  - Detailed reasoning
+
+  ## Overall Assessment
+  - Total Score: XX/100
+  - Recommendation: High/Medium/Low
+  - Confidence: High/Medium/Low
+  - Rationale: (2-3 sentences explaining recommendation)
+
+  ## Key Risks
+  1. [Risk with impact assessment]
+  2. [Risk with impact assessment]
+  3. [Risk with impact assessment]
+
+  ## Key Opportunities
+  1. [Opportunity with value potential]
+  2. [Opportunity with value potential]
+  3. [Opportunity with value potential]
+
+  ## Next Steps
+  1. [Specific action]
+  2. [Specific action]
+  3. [Specific action]
+
+  Output as JSON:
+  ```json
+  {{
+    "overall_score": 0,
+    "recommendation": "High|Medium|Low",
+    "confidence": "High|Medium|Low",
+    "rationale": "explanation",
+    "scores": {{
+      "market_analysis": 0,
+      "competitive_position": 0,
+      "scientific_assessment": 0,
+      "regulatory_ip": 0,
+      "commercial_viability": 0
+    }},
+    "market_size_usd_billions": 0.0,
+    "patient_population": 0,
+    "key_risks": [
+      {{"risk": "description", "impact": "High|Medium|Low"}},
+      {{"risk": "description", "impact": "High|Medium|Low"}}
+    ],
+    "key_opportunities": [
+      {{"opportunity": "description", "value_potential": "High|Medium|Low"}},
+      {{"opportunity": "description", "value_potential": "High|Medium|Low"}}
+    ],
+    "next_steps": [
+      "specific action 1",
+      "specific action 2"
+    ]
+  }}
+  ```
+
+examples:
+  - trial:
+      title: "Phase 2 Study of Novel IL-5 mAb in Severe Pediatric Asthma"
+      phase: "Phase II"
+      indication: "Severe asthma, pediatric"
+      intervention: "Monoclonal antibody targeting IL-5"
+    expected_score: 65
+    reasoning: "Significant market but competitive landscape crowded with Dupilumab"
+
+  - trial:
+      title: "Phase 1 Gene Therapy for Ultra-Rare Metabolic Disorder"
+      phase: "Phase I"
+      indication: "Niemann-Pick Disease Type C"
+      intervention: "AAV gene therapy"
+    expected_score: 72
+    reasoning: "High unmet need, orphan designation likely, but early stage and small market"

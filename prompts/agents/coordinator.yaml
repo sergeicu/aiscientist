@@ -1,0 +1,145 @@
+# Coordinator Agent Prompt Templates
+
+system_prompt: |
+  You are the Coordinator Agent, responsible for orchestrating multi-agent
+  research workflows. You manage specialized agents (Investment Evaluator,
+  Prior Art Researcher, Hypothesis Generator) to complete complex analysis tasks.
+
+  Your responsibilities:
+  1. Understand user requests and break them into subtasks
+  2. Assign tasks to appropriate specialized agents
+  3. Collect and validate agent outputs
+  4. Synthesize findings from multiple agents
+  5. Generate comprehensive, coherent reports
+
+  Available agents:
+  - Investment Evaluator: Assess commercial potential, market analysis, competitive positioning
+  - Prior Art Researcher: Literature review, patent search, competitive landscape analysis
+  - Hypothesis Generator: Identify research gaps, propose new directions, generate testable hypotheses
+
+  When coordinating, always:
+  - Provide clear, specific instructions to agents
+  - Validate agent outputs for completeness and coherence
+  - Ask for clarification when agent outputs are ambiguous
+  - Synthesize findings logically and coherently
+  - Highlight agreement and disagreement between agents
+  - Provide actionable recommendations
+
+task_routing: |
+  Analyze this user request and create an execution plan:
+
+  User Request: {user_query}
+
+  Determine the task type and create a workflow plan.
+
+  Output as JSON:
+  ```json
+  {{
+    "task_type": "investment_evaluation | research_discovery | comprehensive_analysis",
+    "workflow": [
+      {{
+        "step": 1,
+        "agent": "agent_name",
+        "task": "specific task description",
+        "inputs": {{}},
+        "expected_output": "what this step should produce"
+      }}
+    ],
+    "synthesis_plan": "how to combine agent outputs into final report"
+  }}
+  ```
+
+investment_synthesis: |
+  Synthesize these findings into an investment evaluation memo:
+
+  Trial Information:
+  {trial_info}
+
+  Initial Assessment (Investment Evaluator):
+  {initial_assessment}
+
+  Competitive Landscape (Prior Art Researcher):
+  {prior_art}
+
+  Final Recommendation (Investment Evaluator):
+  {final_recommendation}
+
+  Generate a comprehensive investment memo with:
+
+  ## Executive Summary
+  - 3-5 sentences summarizing opportunity and recommendation
+
+  ## Market Opportunity
+  - Market size and growth
+  - Patient population
+  - Unmet medical need
+
+  ## Competitive Position
+  - Current standard of care
+  - Competing approaches
+  - Differentiation and timing advantages
+
+  ## Scientific Assessment
+  - Novel aspects of approach
+  - Clinical data quality
+  - Key endpoints
+
+  ## Risks
+  - Top 3-5 key risks
+
+  ## Opportunities
+  - Top 3-5 key opportunities
+
+  ## Recommendation
+  - Clear Go/No-Go/More Data decision
+  - Confidence level (High/Medium/Low)
+  - Rationale (2-3 sentences)
+
+  ## Next Steps
+  - Specific, actionable next steps
+
+  Format as markdown.
+
+research_synthesis: |
+  Synthesize these findings into a research proposal:
+
+  Research Topic: {topic}
+
+  Papers Analyzed: {paper_count}
+
+  Research Gaps (Hypothesis Generator):
+  {gaps}
+
+  Gap Validation (Prior Art Researcher):
+  {validation}
+
+  Proposed Hypotheses (Hypothesis Generator):
+  {hypotheses}
+
+  Generate a research proposal with:
+
+  ## Background
+  - Current state of the field (2-3 paragraphs)
+  - Key findings from literature review
+
+  ## Research Gaps Identified
+  - List validated gaps with supporting evidence
+
+  ## Proposed Hypotheses
+  - 3-5 testable hypotheses with rationale
+
+  ## Experimental Designs
+  - For each hypothesis, outline approach
+
+  ## Expected Outcomes
+  - What each experiment would demonstrate
+
+  ## Feasibility Assessment
+  - Resources required
+  - Timeline estimate
+  - Technical challenges
+
+  ## Next Steps
+  - Immediate actions to move forward
+
+  Format as markdown.

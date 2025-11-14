@@ -286,3 +286,70 @@ class OllamaClient:
         """
         logger.info("Warming up model...")
         return self.test_generation()
+
+    async def generate_structured(
+        self,
+        prompt: str,
+        schema: Dict[str, Any],
+        system_prompt: Optional[str] = None,
+        max_retries: int = 3
+    ) -> Dict[str, Any]:
+        """
+        Generate structured JSON output matching a schema.
+
+        Args:
+            prompt: User prompt
+            schema: Expected output schema (simple format)
+            system_prompt: System prompt (optional)
+            max_retries: Maximum retry attempts
+
+        Returns:
+            Parsed JSON dictionary matching schema
+
+        Raises:
+            Exception: If generation or parsing fails after retries
+        """
+        import json
+        from json_repair import repair_json
+
+        # Add schema instruction to prompt
+        schema_str = json.dumps(schema, indent=2)
+        structured_prompt = f"{prompt}\n\nProvide response as valid JSON matching this schema:\n{schema_str}"
+
+        last_error = None
+
+        for attempt in range(max_retries):
+            try:
+                # Generate with JSON format
+                response = self.generate(
+                    prompt=structured_prompt,
+                    system_prompt=system_prompt,
+                    format="json"
+                )
+
+                # Extract content
+                content = response.get("message", {}).get("content", "")
+
+                # Try parsing directly
+                try:
+                    result = json.loads(content)
+                    logger.debug(f"Structured generation successful on attempt {attempt + 1}")
+                    return result
+                except json.JSONDecodeError as e:
+                    logger.warning(f"JSON decode failed, attempting repair: {e}")
+                    # Try repairing JSON
+                    repaired = repair_json(content)
+                    result = json.loads(repaired)
+                    logger.debug(f"JSON repaired and parsed successfully")
+                    return result
+
+            except Exception as e:
+                last_error = e
+                logger.warning(f"Structured generation attempt {attempt + 1}/{max_retries} failed: {e}")
+
+                if attempt < max_retries - 1:
+                    logger.info("Retrying...")
+                    time.sleep(1)
+
+        # All attempts failed
+        raise Exception(f"Structured generation failed after {max_retries} attempts: {last_error}")
