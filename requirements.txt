@@ -24,3 +24,15 @@ tqdm>=4.65.0                  # Progress bars
 # Utilities
 python-dotenv>=1.0.0          # Environment variable management
 loguru>=0.7.0                 # Better logging
+
+# Visualization and ML dependencies (Task 6: UMAP)
+sentence-transformers>=2.2    # Embeddings
+umap-learn>=0.5               # Dimensionality reduction
+hdbscan>=0.8                  # Clustering
+plotly>=5.17                  # Interactive plots
+streamlit>=1.28               # Dashboard framework
+scikit-learn>=1.3             # Additional ML utilities
+
+# Testing
+pytest>=7.4                   # Testing framework
+pytest-cov>=4.1               # Coverage reporting
