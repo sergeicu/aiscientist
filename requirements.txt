@@ -33,6 +33,12 @@ httpx>=0.25                   # HTTP client with retry support
 aiohttp>=3.9                  # Async HTTP client
 tenacity>=8.2                 # Retry logic with exponential backoff
 
+# Author Network Extractor
+neo4j>=5.14                   # Neo4j driver for graph database
+geopy>=2.4                    # Geocoding
+thefuzz>=0.20                 # Fuzzy string matching
+networkx>=3.2                 # Network analysis (backup/testing)
+
 # Testing
 pytest>=7.4                   # Testing framework
 pytest-asyncio>=0.21          # Async testing support

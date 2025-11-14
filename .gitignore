@@ -32,6 +32,7 @@ htmlcov/
 venv/
 ENV/
 env/
+.venv
 
 # IDEs
 .vscode/
@@ -47,6 +48,8 @@ Thumbs.db
 # Environment variables
 .env
 .env.local
+
+# Logs
 *.log
 
 # Data files (optional - uncomment if needed)
