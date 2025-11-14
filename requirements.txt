@@ -24,3 +24,17 @@ tqdm>=4.65.0                  # Progress bars
 # Utilities
 python-dotenv>=1.0.0          # Environment variable management
 loguru>=0.7.0                 # Better logging
+
+# Dashboard and Visualization (Task 7)
+streamlit>=1.28               # Dashboard framework
+networkx>=3.2                 # Network analysis
+plotly>=5.17                  # Interactive plots
+folium>=0.15                  # Map visualizations
+geopy>=2.4                    # Geocoding
+neo4j>=5.14                   # Database connection
+scipy>=1.11                   # Scientific computing (needed for networkx layouts)
+
+# Testing
+pytest>=7.4                   # Testing framework
+pytest-mock>=3.12             # Mocking
+pytest-cov>=4.1               # Coverage reporting
