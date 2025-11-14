@@ -24,3 +24,11 @@ tqdm>=4.65.0                  # Progress bars
 # Utilities
 python-dotenv>=1.0.0          # Environment variable management
 loguru>=0.7.0                 # Better logging
+
+# Embeddings and Vector Store
+sentence-transformers>=2.2.0  # Semantic embeddings for text
+chromadb>=0.4.0               # Vector database for similarity search
+
+# Testing
+pytest>=7.0.0                 # Testing framework
+pytest-cov>=4.0.0             # Test coverage reporting
