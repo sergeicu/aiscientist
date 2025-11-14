@@ -1,9 +1,12 @@
-"""
-Custom exceptions for PubMed scraper.
-"""
+"""Custom exceptions for scrapers module."""
 
 
-class PubMedAPIError(Exception):
+class APIError(Exception):
+    """Base exception for API errors."""
+    pass
+
+
+class PubMedAPIError(APIError):
     """Base exception for PubMed API errors."""
     pass
 
@@ -13,6 +16,11 @@ class RateLimitError(PubMedAPIError):
     pass
 
 
-class ParseError(PubMedAPIError):
-    """Raised when XML parsing fails."""
+class NetworkError(APIError):
+    """Raised when network request fails."""
+    pass
+
+
+class ParseError(APIError):
+    """Raised when response parsing fails."""
     pass
