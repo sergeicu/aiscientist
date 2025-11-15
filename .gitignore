@@ -20,10 +20,18 @@ wheels/
 .installed.cfg
 *.egg
 
+# Testing
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.pytest_cache/
+.hypothesis/
+
 # Virtual environments
 venv/
-env/
 ENV/
+env/
 .venv
 
 # IDEs
@@ -33,19 +41,18 @@ ENV/
 *.swo
 *~
 
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-
-# Environment
-.env
-.env.local
-
 # OS
 .DS_Store
 Thumbs.db
 
+# Environment variables
+.env
+.env.local
+
 # Logs
 *.log
+
+# Data files (optional - uncomment if needed)
+# data/
+# *.json
+# *.csv

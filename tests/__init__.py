@@ -1,1 +1,1 @@
-"""Tests for Author Network Extractor."""
+"""Test suite for AI Scientist platform."""

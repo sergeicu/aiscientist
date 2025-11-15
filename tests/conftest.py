@@ -1,8 +1,4 @@
-# tests/conftest.py
-
-"""
-Pytest configuration and shared fixtures.
-"""
+"""Pytest configuration and shared fixtures."""
 
 import pytest
 import os
@@ -11,7 +7,7 @@ import os
 def pytest_configure(config):
     """Configure pytest with custom markers."""
     config.addinivalue_line(
-        "markers", "integration: marks tests as integration tests (requires running Neo4j)"
+        "markers", "integration: marks tests as integration tests (may require network/Neo4j)"
     )
     config.addinivalue_line(
         "markers", "unit: marks tests as unit tests (use mocks, no external dependencies)"
