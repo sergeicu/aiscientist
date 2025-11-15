@@ -1,8 +1,8 @@
 """Data pipeline orchestrator for scraping and processing research data."""
 
-from pipeline.config import PipelineConfig, PubMedConfig, ClinicalTrialsConfig, load_config
-from pipeline.storage import StorageManager
-from pipeline.orchestrator import PipelineOrchestrator
+from .config import PipelineConfig, PubMedConfig, ClinicalTrialsConfig, load_config
+from .storage import StorageManager
+from .orchestrator import PipelineOrchestrator
 
 __all__ = [
     "PipelineConfig",

@@ -4,7 +4,7 @@ import pytest
 import json
 from pathlib import Path
 from datetime import datetime
-from pipeline.storage import StorageManager
+from src.pipeline.storage import StorageManager
 
 
 class TestStorageManager:

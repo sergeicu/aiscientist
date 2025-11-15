@@ -2,8 +2,8 @@
 
 import pytest
 from unittest.mock import Mock, AsyncMock, patch
-from pipeline.orchestrator import PipelineOrchestrator
-from pipeline.config import PipelineConfig, PubMedConfig, ClinicalTrialsConfig
+from src.pipeline.orchestrator import PipelineOrchestrator
+from src.pipeline.config import PipelineConfig, PubMedConfig, ClinicalTrialsConfig
 
 
 @pytest.fixture

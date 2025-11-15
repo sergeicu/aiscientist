@@ -8,13 +8,13 @@ from pathlib import Path
 from rich.progress import Progress, SpinnerColumn, TimeElapsedColumn
 from rich.console import Console
 
-from pipeline.config import PipelineConfig
-from pipeline.storage import StorageManager
+from .config import PipelineConfig
+from .storage import StorageManager
 
 # Import scrapers from completed tasks
-from scrapers.pubmed_scraper import PubMedScraper
-from scrapers.clinicaltrials_scraper import ClinicalTrialsScraper
-from network.network_builder import NetworkBuilder
+from src.scrapers.pubmed_scraper import PubMedScraper
+from src.scrapers.clinicaltrials_scraper import ClinicalTrialsScraper
+from src.network.network_builder import NetworkBuilder
 
 logger = logging.getLogger(__name__)
 console = Console()
